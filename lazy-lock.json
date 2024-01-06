@@ -9,6 +9,8 @@
   "nerdtree": { "branch": "master", "commit": "aa29fbe481a4603e92240e6b0622aca97348532b" },
   "nui.nvim": { "branch": "main", "commit": "35da9ca1de0fc4dda96c2e214d93d363c145f418" },
   "nvim-dap": { "branch": "master", "commit": "f0dca670fa059eb89dda8869a6310c804241345c" },
+  "nvim-dap-ui": { "branch": "master", "commit": "7e5e16427aaf814dc2d58e1b219def9ef2fa2435" },
+  "nvim-dap-virtual-text": { "branch": "master", "commit": "d4542ac257d3c7ee4131350db6179ae6340ce40b" },
   "nvim-java": { "branch": "main", "commit": "def27cfa6e4f94e2abed4ff19a7c4caaf5b95cb6" },
   "nvim-java-core": { "branch": "main", "commit": "295161308d57cc4c7a69daeeee6951e74080c661" },
   "nvim-java-dap": { "branch": "main", "commit": "55c90c5d2414f6e66f843f38e111bee284d71e61" },
