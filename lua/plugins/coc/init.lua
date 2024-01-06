@@ -1,7 +1,7 @@
 return {
 	'neoclide/coc.nvim',
 	 branch= 'release',
-	 dependencies={'nvim-lua/popup.nvim'},
+	 dependencies={'nvim-lua/popup.nvim', 'fannheyward/coc-pyright'},
 	config = function()
 		-- Some servers have issues with backup files, see #649
 		vim.opt.backup = false
@@ -187,6 +187,10 @@ return {
 		keyset("n", "<space>k", ":<C-u>CocPrev<cr>", opts)
 		-- Resume latest coc list
 		keyset("n", "<space>p", ":<C-u>CocListResume<cr>", opts)
+
+		-- COC Pyright --
+		
+		-----------------
 	end
 
 }
