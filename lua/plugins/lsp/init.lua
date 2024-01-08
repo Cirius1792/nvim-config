@@ -1,6 +1,12 @@
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
+		"nvim-java/nvim-java",
+		"nvim-java/lua-async-await",
+		"nvim-java/nvim-java-core",
+		"nvim-java/nvim-java-test",
+		"nvim-java/nvim-java-dap",
+		"MunifTanjim/nui.nvim",
 		"j-hui/fidget.nvim",
 		{
 			"williamboman/mason.nvim",
@@ -12,11 +18,6 @@ return {
 			},
 		},
 		"williamboman/mason-lspconfig.nvim",
-		"nvim-java/nvim-java",
-		"nvim-java/lua-async-await",
-		"nvim-java/nvim-java-core",
-		"nvim-java/nvim-java-test",
-		"nvim-java/nvim-java-dap",
 		"MunifTanjim/nui.nvim",
 		{
 			"mfussenegger/nvim-dap",
@@ -180,10 +181,11 @@ return {
 		})
 		require("mason-lspconfig").setup()
 
-		require("java").setup()
 		local lspconfig = require("lspconfig")
+		require("java").setup()
 		lspconfig.pyright.setup({})
 		lspconfig.jdtls.setup({})
+
 		-- Use LspAttach autocommand to only map the following keys
 		-- after the language server attaches to the current buffer
 		vim.api.nvim_create_autocmd("LspAttach", {
