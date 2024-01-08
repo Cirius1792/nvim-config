@@ -2,8 +2,22 @@ return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
 		"j-hui/fidget.nvim",
-		"williamboman/mason.nvim",
+		{
+			"williamboman/mason.nvim",
+			opts = {
+				registries = {
+					"github:nvim-java/mason-registry",
+					"github:mason-org/mason-registry",
+				},
+			},
+		},
 		"williamboman/mason-lspconfig.nvim",
+		"nvim-java/nvim-java",
+		"nvim-java/lua-async-await",
+		"nvim-java/nvim-java-core",
+		"nvim-java/nvim-java-test",
+		"nvim-java/nvim-java-dap",
+		"MunifTanjim/nui.nvim",
 		{
 			"mfussenegger/nvim-dap",
 			keys = {
@@ -166,6 +180,7 @@ return {
 		})
 		require("mason-lspconfig").setup()
 
+		require("java").setup()
 		local lspconfig = require("lspconfig")
 		lspconfig.pyright.setup({})
 		lspconfig.jdtls.setup({})
