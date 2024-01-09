@@ -18,7 +18,7 @@ return {
 					python = ".venv/Scripts/python",
 				}),
 				require("neotest-java")({
-					ignore_wrapper = true, -- whether to ignore maven/gradle wrapper
+					ignore_wrapper = false, -- whether to ignore maven/gradle wrapper
 				}),
 			},
 			status = { virtual_text = true },
