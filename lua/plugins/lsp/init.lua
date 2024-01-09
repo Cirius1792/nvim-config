@@ -22,6 +22,7 @@ return {
 			"MunifTanjim/nui.nvim",
 			{
 				"mfussenegger/nvim-dap",
+
 				keys = {
 					{
 						"<leader>dB",
@@ -172,7 +173,6 @@ return {
 			"L3MON4D3/LuaSnip", -- Snippets plugin
 			"vim-test/vim-test",
 		},
-
 		config = function()
 			require("fidget").setup({})
 			local servers = { "lua_ls", "pyright", "jdtls", "marksman" }
