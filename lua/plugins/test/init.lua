@@ -10,12 +10,21 @@ return {
 		"rcasia/neotest-java",
 	},
 	config = function()
+		local pythonPath
+		if vim.fn.has("win32") == 1 then
+			-- Set the path for Windows
+			pythonPath = ".venv/Scripts/python"
+		else
+			-- Set the path for Linux or macOS
+			pythonPath = ".venv/bin/python"
+		end
 		require("neotest").setup({
 			adapters = {
 				require("neotest-python")({
 					dap = { justMyCode = false },
 					runner = "pytest",
-					python = ".venv/Scripts/python",
+					--python = ".venv/Scripts/python",
+					python = pythonPath,
 				}),
 				require("neotest-java")({
 					ignore_wrapper = true, -- whether to ignore maven/gradle wrapper
