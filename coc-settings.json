@@ -1,5 +1,0 @@
-{
-	"python.analysis.autoImportCompletions": true,
-	"python.formatting.provider":"black",
-	"pyright.testing.provider":"pytest"
-}
