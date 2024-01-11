@@ -185,7 +185,39 @@ return {
 			local lspconfig = require("lspconfig")
 			require("java").setup()
 			lspconfig.pyright.setup({})
-			lspconfig.jdtls.setup({})
+			lspconfig.jdtls.setup({
+				on_attach = function(client, bufnr)
+					-- https://github.com/mfussenegger/dotfiles/blob/833d634251ebf3bf7e9899ed06ac710735d392da/vim/.config/nvim/ftplugin/java.lua#L88-L94
+					local opts = { silent = true, buffer = bufnr }
+					vim.keymap.set(
+						"n",
+						"<leader>lo",
+						jdtls.organize_imports,
+						{ desc = "Organize imports", buffer = bufnr }
+					)
+					-- Should 'd' be reserved for debug?
+					vim.keymap.set("n", "<leader>df", jdtls.test_class, opts)
+					vim.keymap.set("n", "<leader>dn", jdtls.test_nearest_method, opts)
+					vim.keymap.set(
+						"n",
+						"<leader>rv",
+						jdtls.extract_variable_all,
+						{ desc = "Extract variable", buffer = bufnr }
+					)
+					vim.keymap.set(
+						"v",
+						"<leader>rm",
+						[[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]],
+						{ desc = "Extract method", buffer = bufnr }
+					)
+					vim.keymap.set(
+						"n",
+						"<leader>rc",
+						jdtls.extract_constant,
+						{ desc = "Extract constant", buffer = bufnr }
+					)
+				end,
+			})
 
 			-- Use LspAttach autocommand to only map the following keys
 			-- after the language server attaches to the current buffer
