@@ -7,6 +7,7 @@ return {
 		{ "<leader>ff", desc = "Find Files" },
 		{ "<leader>fg", desc = "Find Text" },
 		{ "<leader>fG", desc = "Find Git Files" },
+		{ "<leader>fo", "<cmd>ObsidianSearch<cr>", desc = "Find Obsidian Note" },
 	},
 	config = function()
 		local builtin = require("telescope.builtin")

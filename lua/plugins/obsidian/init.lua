@@ -14,6 +14,19 @@ return {
 		-- Required.
 		"nvim-lua/plenary.nvim",
 	},
+	completion = {
+		nvim_cmp = true,
+		min_chars = 2,
+	},
+	keys = {
+		{ "<leader>o", desc = "Obsidian" },
+		{ "<leader>oo", "<cmd>ObsidianOpen<cr>", desc = "Open in Obsidian" },
+		{ "<leader>ot", "<cmd>ObsidianToday<cr>", desc = "Today Note" },
+		{ "<leader>oy", "<cmd>ObsidianYesterday<cr>", desc = "Yesterday Note" },
+		{ "<leader>ott", "<cmd>ObsidianTomorrow<cr>", desc = "Yesterday Note" },
+		{ "<leader>ogf", "<cmd>ObsidianFollowLink<cr>", desc = "Follow Link" },
+		{ "<leader>orn", "<cmd>ObsidianRename<cr>", desc = "Rename Note" },
+	},
 	opts = {
 		workspaces = require("plugins.obsidian.workspaces"),
 	},
