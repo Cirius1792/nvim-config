@@ -7,7 +7,7 @@ return {
 					require("formatter.filetypes.lua").stylua,
 				},
 				java = {
-					require("formatter.filetypes.java").google_java_format,
+					require("formatter.filetypes.java").clang_format,
 				},
 				python = {
 					require("formatter.filetypes.python").autopep8,
