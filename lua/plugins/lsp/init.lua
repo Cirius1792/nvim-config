@@ -175,9 +175,17 @@ return {
 		},
 		config = function()
 			require("fidget").setup({})
-			local servers = { "lua_ls", "pyright", "jdtls", "marksman" }
+			local servers = { "lua_ls", "lua-language-server", "pyright", "jdtls", "marksman" }
+			local linters = { "autopep8", "google-java-format", "clang-format", "stylua" }
+			local to_be_installed_by_mason = {}
+			for _, server in ipairs(servers) do
+				table.insert(to_be_installed_by_mason, server)
+			end
+			for _, linter in ipairs(linters) do
+				table.insert(to_be_installed_by_mason, linter)
+			end
 			require("mason").setup({
-				ensure_installed = servers,
+				ensure_installed = to_be_installed_by_mason,
 				automatic_installation = true,
 			})
 			require("mason-lspconfig").setup()
@@ -200,19 +208,19 @@ return {
 					vim.keymap.set("n", "<leader>dn", jdtls.test_nearest_method, opts)
 					vim.keymap.set(
 						"n",
-						"<leader>rv",
+						"<leader>ev",
 						jdtls.extract_variable_all,
 						{ desc = "Extract variable", buffer = bufnr }
 					)
 					vim.keymap.set(
 						"v",
-						"<leader>rm",
+						"<leader>em",
 						[[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]],
 						{ desc = "Extract method", buffer = bufnr }
 					)
 					vim.keymap.set(
 						"n",
-						"<leader>rc",
+						"<leader>ec",
 						jdtls.extract_constant,
 						{ desc = "Extract constant", buffer = bufnr }
 					)

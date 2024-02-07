@@ -9,6 +9,7 @@ return {
 		{ "<leader>e", desc = "Refactoring" },
 		{ "<leader>ev", desc = "Extract Variable" },
 	},
+	ft = { "python" }, -- Load the plugin only on Python files
 	config = function()
 		require("refactoring").setup()
 		vim.keymap.set("x", "<leader>ev", ":Refactor extract_var ")
