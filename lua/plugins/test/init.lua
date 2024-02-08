@@ -2,13 +2,13 @@ return {
 	{
 		"nvim-neotest/neotest",
 		event = "LspAttach",
+		ft = "python",
 		dependencies = {
 			"folke/trouble.nvim",
 			"nvim-lua/plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-python",
-			"rcasia/neotest-java",
 		},
 		config = function()
 			local pythonPath
@@ -26,9 +26,6 @@ return {
 						runner = "pytest",
 						--python = ".venv/Scripts/python",
 						python = pythonPath,
-					}),
-					require("neotest-java")({
-						ignore_wrapper = false, -- whether to ignore maven/gradle wrapper
 					}),
 				},
 				status = { virtual_text = true },
