@@ -2,199 +2,39 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			"nvim-java/nvim-java",
-			"nvim-java/lua-async-await",
-			"nvim-java/nvim-java-core",
-			"nvim-java/nvim-java-test",
-			"nvim-java/nvim-java-dap",
 			"MunifTanjim/nui.nvim",
 			"j-hui/fidget.nvim",
-			{
-				"williamboman/mason.nvim",
-				opts = {
-					registries = {
-						"github:nvim-java/mason-registry",
-						"github:mason-org/mason-registry",
-					},
-				},
-			},
+			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"MunifTanjim/nui.nvim",
-			{
-				"mfussenegger/nvim-dap",
-
-				keys = {
-					{
-						"<leader>dB",
-						function()
-							require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-						end,
-						desc = "Breakpoint Condition",
-					},
-					{
-						"<leader>db",
-						function()
-							require("dap").toggle_breakpoint()
-						end,
-						desc = "Toggle Breakpoint",
-					},
-					{
-						"<leader>dc",
-						function()
-							require("dap").continue()
-						end,
-						desc = "Continue",
-					},
-					{
-						"<leader>da",
-						function()
-							require("dap").continue({ before = get_args })
-						end,
-						desc = "Run with Args",
-					},
-					{
-						"<leader>dC",
-						function()
-							require("dap").run_to_cursor()
-						end,
-						desc = "Run to Cursor",
-					},
-					{
-						"<leader>dg",
-						function()
-							require("dap").goto_()
-						end,
-						desc = "Go to line (no execute)",
-					},
-					{
-						"<leader>di",
-						function()
-							require("dap").step_into()
-						end,
-						desc = "Step Into",
-					},
-					{
-						"<leader>dn",
-						function()
-							require("dap").down()
-						end,
-						desc = "Down",
-					},
-					{
-						"<leader>dl",
-						function()
-							require("dap").run_last()
-						end,
-						desc = "Run Last",
-					},
-					{
-						"<leader>do",
-						function()
-							require("dap").step_out()
-						end,
-						desc = "Step Out",
-					},
-					{
-						"<leader>dO",
-						function()
-							require("dap").step_over()
-						end,
-						desc = "Step Over",
-					},
-					{
-						"<leader>dp",
-						function()
-							require("dap").pause()
-						end,
-						desc = "Pause",
-					},
-					{
-						"<leader>dr",
-						function()
-							require("dap").repl.toggle()
-						end,
-						desc = "Toggle REPL",
-					},
-					{
-						"<leader>ds",
-						function()
-							require("dap").session()
-						end,
-						desc = "Session",
-					},
-					{
-						"<leader>dt",
-						function()
-							require("dap").terminate()
-						end,
-						desc = "Terminate",
-					},
-					{
-						"<leader>dw",
-						function()
-							require("dap.ui.widgets").hover()
-						end,
-						desc = "Widgets",
-					},
-				},
-			},
-			{
-				"theHamsta/nvim-dap-virtual-text",
-				opts = {},
-			},
-			{
-				"rcarriga/nvim-dap-ui",
-		      -- stylua: ignore
-		      keys = {
-		        { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
-		        { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
-		      },
-				opts = {},
-				config = function(_, opts)
-					-- setup dap config by VsCode launch.json file
-					-- require("dap.ext.vscode").load_launchjs()
-					local dap = require("dap")
-					local dapui = require("dapui")
-					dapui.setup(opts)
-					dap.listeners.after.event_initialized["dapui_config"] = function()
-						dapui.open({})
-					end
-					dap.listeners.before.event_terminated["dapui_config"] = function()
-						dapui.close({})
-					end
-					dap.listeners.before.event_exited["dapui_config"] = function()
-						dapui.close({})
-					end
-				end,
-			},
+			"mfussenegger/nvim-dap",
+			"theHamsta/nvim-dap-virtual-text",
+			"rcarriga/nvim-dap-ui",
 			"hrsh7th/nvim-cmp", -- Autocompletion plugin
 			"hrsh7th/cmp-nvim-lsp", -- LSP source for nvim-cmp
 			"saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
 			"L3MON4D3/LuaSnip", -- Snippets plugin
-			"vim-test/vim-test",
 		},
 		config = function()
 			require("fidget").setup({})
-			local servers = { "lua_ls", "lua-language-server", "pyright", "jdtls", "marksman" }
-			local linters = { "autopep8", "google-java-format", "clang-format", "stylua" }
-			local to_be_installed_by_mason = {}
-			for _, server in ipairs(servers) do
-				table.insert(to_be_installed_by_mason, server)
-			end
-			for _, linter in ipairs(linters) do
-				table.insert(to_be_installed_by_mason, linter)
-			end
-			require("mason").setup({
-				ensure_installed = to_be_installed_by_mason,
+			require("mason").setup()
+			local servers = { "lua_ls", "pyright", "jdtls", "marksman" }
+			require("mason-lspconfig").setup({
+				ensure_installed = servers,
 				automatic_installation = true,
 			})
-			require("mason-lspconfig").setup()
 
 			local lspconfig = require("lspconfig")
-			require("java").setup()
 			lspconfig.pyright.setup({})
 			lspconfig.jdtls.setup({
+				root_dir = function()
+					print("Sto cercando la root")
+					return vim.fs.dirname(
+						vim.fs.find({ ".gradlew", ".gitignore", "mvnw", "build.grade.kts" }, { upward = true })[1]
+					) .. "\\"
+				end,
 				on_attach = function(client, bufnr)
+					print("Sono in on attach")
 					-- https://github.com/mfussenegger/dotfiles/blob/833d634251ebf3bf7e9899ed06ac710735d392da/vim/.config/nvim/ftplugin/java.lua#L88-L94
 					local opts = { silent = true, buffer = bufnr }
 					vim.keymap.set(
