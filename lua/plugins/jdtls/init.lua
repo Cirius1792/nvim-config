@@ -15,6 +15,18 @@ return {
 		ft = java_filetypes,
 		config = function()
 			require("fidget").setup({})
+
+			require("mason").setup()
+			local servers = { "jdtls" }
+			local noop = function() end
+
+			require("mason-lspconfig").setup_handlers({
+				["jdtls"] = noop,
+			})
+			require("mason-lspconfig").setup({
+				ensure_installed = servers,
+				automatic_installation = true,
+			})
 			local opts = {
 				root_dir = function()
 					require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
