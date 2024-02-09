@@ -1,11 +1,10 @@
 return {
 	"mbbill/undotree",
 	keys = {
-		{ "<leader>l", desc = "Undotree" },
-		{ "<leader>lh", desc = "Toggle Undotree" },
+		{ "<leader>u", ":UndotreeToggle<CR>", desc = "Undotree Toggle" },
 	},
 	config = function()
-		-- lh = *L*ocal *H*istory
-		vim.api.nvim_set_keymap("n", "<leader>lh", ":UndotreeToggle<CR>", { noremap = true, silent = true })
+		vim.g.undotree_SetFocusWhenToggle = 1
+        vim.g.undotree_WindowLayout = 4
 	end,
 }
