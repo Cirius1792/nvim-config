@@ -2,13 +2,26 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		opts = {
-			integrations = {
-				treesitter = true,
-				notify = false,
-			},
-		},
 		config = function()
+			require("catppuccin").setup({
+				integrations = {
+					cmp = true,
+					treesitter = true,
+					notify = true,
+					fidget = true,
+					harpoon = true,
+					mason = true,
+					dap_ui = true,
+					dap = true,
+					lsp_trouble = true,
+				},
+			})
+			local sign = vim.fn.sign_define
+
+			sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+			sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+			sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
+
 			vim.cmd("colorscheme catppuccin")
 		end,
 	},
@@ -16,6 +29,9 @@ return {
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
+			options = {
+				theme = "catppuccin",
+			},
 			sections = {
 				lualine_c = {
 					{
@@ -33,10 +49,6 @@ return {
 			vim.o.timeout = true
 			vim.o.timeoutlen = 300
 		end,
-		opts = {
-			defaults = {
-				["<leader>t"] = { name = "+test" },
-			},
-		},
+		opts = {},
 	},
 }

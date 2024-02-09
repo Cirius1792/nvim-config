@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
-vim.api.nvim_command("set ff=unix")
+--vim.api.nvim_command("set ff=unix")
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
