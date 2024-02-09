@@ -1,6 +1,6 @@
 return {
 	"mhartington/formatter.nvim",
-	event = "LspAttach",
+	keys = { { "<C-f>", ":Format<CR>", desc = "Format" } },
 	config = function()
 		require("formatter").setup({
 			filetype = {
@@ -8,7 +8,7 @@ return {
 					require("formatter.filetypes.lua").stylua,
 				},
 				java = {
-					require("formatter.filetypes.java").clang_format,
+					require("formatter.filetypes.java").clangformat,
 				},
 				python = {
 					require("formatter.filetypes.python").autopep8,
@@ -22,7 +22,5 @@ return {
 			group = "__formatter__",
 			command = ":FormatWrite",
 		})
-
-		vim.api.nvim_set_keymap("n", "<C-f>", ":Format<CR>", { noremap = true, silent = true })
 	end,
 }
