@@ -3,10 +3,10 @@ return {
 	tag = "0.1.5",
 	dependencies = { "nvim-lua/plenary.nvim" },
 	keys = {
-		{ "<leader>f", desc = "Find" },
+		{ "<leader>f", desc = "+Find" },
 		{ "<leader>ff", desc = "Find Files" },
-		{ "<leader>fg", desc = "Find Text" },
-		{ "<leader>fG", desc = "Find Git Files" },
+		{ "<leader>ft", desc = "Find Text" },
+		{ "<leader>fg", desc = "Find Git Files" },
 		{ "<leader>fo", "<cmd>ObsidianSearch<cr>", desc = "Find Obsidian Note" },
 	},
 	config = function()

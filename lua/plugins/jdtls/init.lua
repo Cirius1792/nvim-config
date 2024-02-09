@@ -126,17 +126,18 @@ return {
 					if client and client.name == "jdtls" then
 						local wk = require("which-key")
 						wk.register({
-							["<leader>e"] = { name = "+extract" },
+							["<leader>e"] = { name = "+Refactoring" },
 							["<leader>ev"] = { require("jdtls").extract_variable_all, "Extract Variable" },
 							["<leader>ec"] = { require("jdtls").extract_constant, "Extract Constant" },
+							["g"] = { name = "+Navigation" },
 							["gs"] = { require("jdtls").super_implementation, "Goto Super" },
 							["gS"] = { require("jdtls.tests").goto_subjects, "Goto Subjects" },
-							["<leader>co"] = { require("jdtls").organize_imports, "Organize Imports" },
 							["gd"] = { vim.lsp.buf.definition, "go to definition" },
 							["gi"] = { vim.lsp.buf.implementation, "go to implementation" },
+							["<leader>co"] = { require("jdtls").organize_imports, "Organize Imports" },
 							["K"] = { vim.lsp.buf.hover, "show doc" },
 							["<C-Space>"] = { vim.lsp.buf.signature_help, "Show signature" },
-
+							["<space>w"] = { name = "+Workspace" },
 							["<space>wa"] = { vim.lsp.buf.add_workspace_folder, "Add Workspace Folder" },
 							["<space>wr"] = { vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder" },
 							["<space>wl"] = {
