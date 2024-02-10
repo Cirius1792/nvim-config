@@ -29,6 +29,10 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-f>", "<C-u>zz")
 vim.keymap.set("x", "<C-p>", '"_dP')
 
+vim.lsp.handlers["textDocument/hover"] =
+	vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", width = 50, height = 20 })
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -40,5 +44,6 @@ if not vim.loop.fs_stat(lazypath) then
 		lazypath,
 	})
 end
+vim.opt.conceallevel = 1
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")

@@ -45,6 +45,6 @@ return {
 				{ name = "luasnip" },
 			},
 		})
-		vim.cmd(":set winhighlight=" .. cmp.config.window.bordered().winhighlight)
+		-- vim.cmd(":set winhighlight=" .. cmp.config.window.bordered().winhighlight)
 	end,
 }
