@@ -1,3 +1,15 @@
+---@param config {args?:string[]|fun():string[]?}
+local function get_args(config)
+  local args = type(config.args) == "function" and (config.args() or {}) or config.args or {}
+  config = vim.deepcopy(config)
+  ---@cast args string[]
+  config.args = function()
+    local new_args = vim.fn.input("Run with args: ", table.concat(args, " ")) --[[@as string]]
+    return new_args
+  end
+  return config
+end
+
 return {
 	{
 		"mfussenegger/nvim-dap",
@@ -69,6 +81,9 @@ return {
 			desc = "Widgets",
 		},
 		},
+        config = function()
+            vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+        end
 	},
 	{
 		"theHamsta/nvim-dap-virtual-text",
