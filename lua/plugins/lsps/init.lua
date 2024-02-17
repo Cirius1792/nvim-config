@@ -9,7 +9,19 @@ return {
 		},
 		lazy = false,
 	},
-
+	{
+		"mfussenegger/nvim-dap",
+		optional = true,
+		dependencies = {
+			{
+				"williamboman/mason.nvim",
+				opts = function(_, opts)
+					opts.ensure_installed = opts.ensure_installed or {}
+					vim.list_extend(opts.ensure_installed, { "java-test", "java-debug-adapter" })
+				end,
+			},
+		},
+	},
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
@@ -30,7 +42,7 @@ return {
 			require("fidget").setup({})
 			require("mason").setup()
 			local lspconfig = require("lspconfig")
-			local servers = { "lua_ls", "pyright", "marksman" }
+			local servers = { "lua_ls", "pyright", "marksman", "gopls", "jdtls" }
 			local noop = function() end
 
 			require("mason-lspconfig").setup_handlers({
@@ -42,6 +54,60 @@ return {
 			})
 
 			lspconfig.pyright.setup({})
+			lspconfig.marksman.setup({})
+			lspconfig.gopls.setup({
+				on_attach = function(client, bufnr)
+					if client.name == "gopls" then
+						if not client.server_capabilities.semanticTokensProvider then
+							local semantic = client.config.capabilities.textDocument.semanticTokens
+							client.server_capabilities.semanticTokensProvider = {
+								full = true,
+								legend = {
+									tokenTypes = semantic.tokenTypes,
+									tokenModifiers = semantic.tokenModifiers,
+								},
+								range = true,
+							}
+						end
+					end
+				end,
+				settings = {
+					gopls = {
+						gofumpt = true,
+						codelenses = {
+							gc_details = false,
+							generate = true,
+							regenerate_cgo = true,
+							run_govulncheck = true,
+							test = true,
+							tidy = true,
+							upgrade_dependency = true,
+							vendor = true,
+						},
+						hints = {
+							assignVariableTypes = true,
+							compositeLiteralFields = true,
+							compositeLiteralTypes = true,
+							constantValues = true,
+							functionTypeParameters = true,
+							parameterNames = true,
+							rangeVariableTypes = true,
+						},
+						analyses = {
+							fieldalignment = true,
+							nilness = true,
+							unusedparams = true,
+							unusedwrite = true,
+							useany = true,
+						},
+						usePlaceholders = true,
+						completeUnimported = true,
+						staticcheck = true,
+						directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+						semanticTokens = true,
+					},
+				},
+			})
 
 			-- Use LspAttach autocommand to only map the following keys
 			-- after the language server attaches to the current buffer

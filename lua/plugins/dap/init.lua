@@ -81,9 +81,10 @@ return {
 			desc = "Widgets",
 		},
 		},
-        config = function()
-            vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
-        end
+        otps = {},
+        -- config = function()
+        --     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+        -- end
 	},
 	{
 		"theHamsta/nvim-dap-virtual-text",
