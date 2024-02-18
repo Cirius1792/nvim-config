@@ -9,10 +9,13 @@ return {
 				},
 				java = {
 					require("formatter.filetypes.java").google_java_format,
-					-- require("formatter.filetypes.java").clangformat,
 				},
 				python = {
 					require("formatter.filetypes.python").autopep8,
+				},
+
+				go = {
+					require("formatter.filetypes.go").gofmt,
 				},
 			},
 		})
