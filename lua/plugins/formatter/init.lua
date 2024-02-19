@@ -1,5 +1,14 @@
 return {
 	"mhartington/formatter.nvim",
+		dependencies = {
+			{
+				"williamboman/mason.nvim",
+				opts = function(_, opts)
+					opts.ensure_installed = opts.ensure_installed or {}
+					vim.list_extend(opts.ensure_installed, { "google-java-format", "stylua", "autopep8", "black", })
+				end,
+			},
+		},
 	keys = { { "<C-f>", ":FormatWrite<CR>", desc = "Format" } },
 	config = function()
 		require("formatter").setup({

@@ -17,7 +17,7 @@ return {
 				"williamboman/mason.nvim",
 				opts = function(_, opts)
 					opts.ensure_installed = opts.ensure_installed or {}
-					vim.list_extend(opts.ensure_installed, { "java-test", "java-debug-adapter" })
+					vim.list_extend(opts.ensure_installed, { "java-test", "java-debug-adapter", "gofumpt", "goimports",})
 				end,
 			},
 		},
@@ -42,7 +42,7 @@ return {
 			require("fidget").setup({})
 			require("mason").setup()
 			local lspconfig = require("lspconfig")
-			local servers = { "lua_ls", "pyright", "marksman", "gopls", "jdtls" }
+			local servers = { "lua_ls", "pyright", "marksman", "gopls", }
 			local noop = function() end
 
 			require("mason-lspconfig").setup_handlers({
