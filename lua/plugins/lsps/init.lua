@@ -17,10 +17,26 @@ return {
 				"williamboman/mason.nvim",
 				opts = function(_, opts)
 					opts.ensure_installed = opts.ensure_installed or {}
-					vim.list_extend(opts.ensure_installed, { "java-test", "java-debug-adapter", "gofumpt", "goimports",})
+					vim.list_extend(
+						opts.ensure_installed,
+						{ "java-test", "java-debug-adapter", "gofumpt", "goimports", "debugpy" }
+					)
 				end,
 			},
 		},
+	},
+	{
+		"mfussenegger/nvim-dap-python",
+		ft = "python",
+      -- stylua: ignore
+      keys = {
+        { "<leader>dPt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },
+        { "<leader>dPc", function() require('dap-python').test_class() end, desc = "Debug Class", ft = "python" },
+      },
+		config = function()
+			local path = require("mason-registry").get_package("debugpy"):get_install_path()
+			require("dap-python").setup(path .. "/venv/bin/python")
+		end,
 	},
 	{
 		"neovim/nvim-lspconfig",
@@ -42,7 +58,7 @@ return {
 			require("fidget").setup({})
 			require("mason").setup()
 			local lspconfig = require("lspconfig")
-			local servers = { "lua_ls", "pyright", "marksman", "gopls", }
+			local servers = { "lua_ls", "pyright", "marksman", "gopls" }
 			local noop = function() end
 
 			require("mason-lspconfig").setup_handlers({
