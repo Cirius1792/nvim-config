@@ -2,10 +2,10 @@ vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
 --vim.api.nvim_command("set ff=unix")
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+--vim.opt.tabstop = 4
+--vim.opt.softtabstop = 4
+--vim.opt.shiftwidth = 4
+--vim.opt.expandtab = true
 
 if vim.fn.has("persistent_undo") then
 	local target_path = vim.fn.expand("~/.undodir")
