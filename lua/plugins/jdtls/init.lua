@@ -1,9 +1,9 @@
 java_filetypes = { "java" }
 return {
-	{ "folke/neodev.nvim", opts = {} },
 	{
 		"mfussenegger/nvim-jdtls",
 		dependencies = {
+			"folke/neodev.nvim",
 			"folke/which-key.nvim",
 			"neovim/nvim-lspconfig",
 			"hrsh7th/nvim-cmp", -- Autocompletion plugin

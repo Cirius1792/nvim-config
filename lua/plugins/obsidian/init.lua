@@ -13,6 +13,7 @@ return {
 	dependencies = {
 		-- Required.
 		"nvim-lua/plenary.nvim",
+        "telescope.nvim",
 	},
 	completion = {
 		nvim_cmp = true,

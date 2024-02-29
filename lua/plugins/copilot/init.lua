@@ -11,7 +11,7 @@ return {
 				auto_trigger = true,
 			},
 			filetypes = {
-				markdown = true,
+				markdown = false,
 				help = true,
 			},
 		},

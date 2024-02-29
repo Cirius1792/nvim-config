@@ -30,8 +30,8 @@ return {
 		ft = "python",
       -- stylua: ignore
       keys = {
-        { "<leader>dPt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },
-        { "<leader>dPc", function() require('dap-python').test_class() end, desc = "Debug Class", ft = "python" },
+        { "<leader>dpt", function() require('dap-python').test_method() end, desc = "Debug Method", ft = "python" },
+        { "<leader>dpc", function() require('dap-python').test_class() end, desc = "Debug Class", ft = "python" },
       },
 		config = function()
 			local path = require("mason-registry").get_package("debugpy"):get_install_path()
@@ -54,6 +54,10 @@ return {
 			"saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
 			"L3MON4D3/LuaSnip", -- Snippets plugin
 		},
+        --stylua: ignore
+		keys = {
+            {"<leader>od", function() vim.diagnostic.open_float() end, desc ="Open diagnostic in floating windows"},
+        },
 		config = function()
 			require("fidget").setup({})
 			require("mason").setup()
@@ -111,5 +115,4 @@ return {
 			end
 		end,
 	},
-	{ "folke/neodev.nvim", opts = {} },
 }

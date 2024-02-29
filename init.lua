@@ -46,5 +46,5 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.conceallevel = 2
 vim.opt.rtp:prepend(lazypath)
-vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', {noremap = true})
+vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true })
 require("lazy").setup("plugins")

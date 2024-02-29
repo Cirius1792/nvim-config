@@ -1,21 +1,33 @@
 ---@param config {args?:string[]|fun():string[]?}
 local function get_args(config)
-  local args = type(config.args) == "function" and (config.args() or {}) or config.args or {}
-  config = vim.deepcopy(config)
-  ---@cast args string[]
-  config.args = function()
-    local new_args = vim.fn.input("Run with args: ", table.concat(args, " ")) --[[@as string]]
-    return new_args
-  end
-  return config
+	local args = type(config.args) == "function" and (config.args() or {}) or config.args or {}
+	config = vim.deepcopy(config)
+	---@cast args string[]
+	config.args = function()
+		local new_args = vim.fn.input("Run with args: ", table.concat(args, " ")) --[[@as string]]
+		return new_args
+	end
+	return config
 end
 
 return {
 	{
+		"folke/neodev.nvim",
+		config = function()
+            print"neodev"
+			require("neodev").setup({
+				library = { plugins = { "nvim-dap-ui" }, types = true },
+			})
+		end,
+	},
+	{
 		"mfussenegger/nvim-dap",
-
   -- stylua: ignore
 	keys = {
+		{
+			"<leader>dU", function() require('dap.ext.vscode').load_launchjs(nil, nil) end,
+			desc = "Update Debug Configurations",
+		},
 		{
 			"<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end,
 			desc = "Breakpoint Condition",
@@ -81,10 +93,10 @@ return {
 			desc = "Widgets",
 		},
 		},
-        otps = {},
-        -- config = function()
-        --     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
-        -- end
+		otps = {},
+		-- config = function()
+		--     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+		-- end
 	},
 	{
 		"theHamsta/nvim-dap-virtual-text",
@@ -92,11 +104,14 @@ return {
 	},
 	{
 		"rcarriga/nvim-dap-ui",
-		      -- stylua: ignore
-		      keys = {
-		        { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
-		        { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
-		      },
+		dependencies = {
+			"folke/neodev.nvim",
+		},
+	   -- stylua: ignore
+       keys = {
+         { "<leader>du", function() require("dapui").toggle({ }) end, desc = "Dap UI" },
+         { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
+       },
 		opts = {},
 		config = function(_, opts)
 			local dap = require("dap")
