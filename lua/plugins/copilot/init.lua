@@ -8,7 +8,7 @@ return {
 			suggestion = { enabled = false },
 			panel = {
 				enabled = false,
-				auto_trigger = true,
+				auto_trigger = false,
 			},
 			filetypes = {
 				markdown = false,
