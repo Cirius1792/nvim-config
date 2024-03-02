@@ -26,10 +26,10 @@ return {
 				--["<C-Space>"] = cmp.mapping.complete(),
 				["<CR>"] = cmp.mapping.confirm({
 					behavior = cmp.ConfirmBehavior.Replace,
-					select = true,
+					select = false,
 				}),
 				["<Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() and has_words_before then
+					if cmp.visible() and has_words_before() then
 						cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
 					elseif luasnip.expand_or_jumpable() then
 						luasnip.expand_or_jump()
@@ -50,7 +50,7 @@ return {
 			sources = {
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
-				{ name = "copilot", group_index = 1, priority = 100 },
+				{ name = "copilot", group_index = 2, priority = 100 },
 			},
 		})
 		-- vim.cmd(":set winhighlight=" .. cmp.config.window.bordered().winhighlight)
