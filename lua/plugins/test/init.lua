@@ -1,4 +1,7 @@
 return {
+    {
+
+    },
 	{
 		"nvim-neotest/neotest",
 		event = "LspAttach",
@@ -9,6 +12,7 @@ return {
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-python",
+            "nvim-neotest/neotest-go",
 		},
 		config = function()
 			local pythonPath
@@ -27,6 +31,7 @@ return {
 						--python = ".venv/Scripts/python",
 						python = pythonPath,
 					}),
+                    require("neotest-go"),
 				},
 				status = { virtual_text = true },
 				output = { open_on_run = true },

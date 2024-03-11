@@ -38,6 +38,14 @@ return {
 			require("dap-python").setup(path .. "/venv/bin/python")
 		end,
 	},
+      {
+        "leoluz/nvim-dap-go",
+        keys = {
+          { "<leader>tdg", function() require("dap-go").debug_test() end, desc = "Debug Test(Go)", ft = "go" },
+        },
+        ft = "go",
+        config = true,
+      },
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
