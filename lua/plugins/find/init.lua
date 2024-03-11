@@ -7,6 +7,7 @@ return {
 		{ "<leader>ff", desc = "Find Files" },
 		{ "<leader>ft", desc = "Find Text" },
 		{ "<leader>fg", desc = "Find Git Files" },
+        { "<leader>fr", function() require('telescope.builtin').lsp_references() end, desc="Find references"},
 		{ "<leader>fo", "<cmd>ObsidianSearch<cr>", desc = "Find Obsidian Note" },
 	},
 	config = function()
