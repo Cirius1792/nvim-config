@@ -14,7 +14,7 @@ return {
 	{
 		"folke/neodev.nvim",
 		config = function()
-            print"neodev"
+			print("neodev")
 			require("neodev").setup({
 				library = { plugins = { "nvim-dap-ui" }, types = true },
 			})
@@ -106,6 +106,7 @@ return {
 		"rcarriga/nvim-dap-ui",
 		dependencies = {
 			"folke/neodev.nvim",
+			"nvim-neotest/nvim-nio",
 		},
 	   -- stylua: ignore
        keys = {
