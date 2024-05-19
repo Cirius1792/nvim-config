@@ -14,7 +14,6 @@ return {
 	{
 		"folke/neodev.nvim",
 		config = function()
-			print("neodev")
 			require("neodev").setup({
 				library = { plugins = { "nvim-dap-ui" }, types = true },
 			})
@@ -22,6 +21,7 @@ return {
 	},
 	{
 		"mfussenegger/nvim-dap",
+		dependencies = { "rcarriga/cmp-dap" },
   -- stylua: ignore
 	keys = {
 		{
@@ -97,6 +97,19 @@ return {
 		-- config = function()
 		--     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 		-- end
+		config = function()
+			require("cmp").setup({
+				enabled = function()
+					return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
+				end,
+			})
+
+			require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+				sources = {
+					{ name = "dap" },
+				},
+			})
+		end,
 	},
 	{
 		"theHamsta/nvim-dap-virtual-text",
