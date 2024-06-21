@@ -1,18 +1,16 @@
 return {
-    {
-
-    },
+	{},
 	{
 		"nvim-neotest/neotest",
 		event = "LspAttach",
-		ft = "python",
+		-- ft = "python",
 		dependencies = {
 			"folke/trouble.nvim",
 			"nvim-lua/plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-python",
-            "nvim-neotest/neotest-go",
+			"nvim-neotest/neotest-go",
 		},
 		config = function()
 			local pythonPath
@@ -31,7 +29,8 @@ return {
 						--python = ".venv/Scripts/python",
 						python = pythonPath,
 					}),
-                    require("neotest-go"),
+					require("neotest-go"),
+					require("neotest-java"),
 				},
 				status = { virtual_text = true },
 				output = { open_on_run = true },
@@ -61,5 +60,10 @@ return {
            keys = {
              { "<leader>td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
            },
+	},
+	{
+		"rcasia/neotest-java",
+		ft = "java",
+		init = function() end,
 	},
 }

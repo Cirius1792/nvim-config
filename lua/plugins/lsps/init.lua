@@ -3,7 +3,6 @@ return {
 		"numToStr/Comment.nvim",
 		opts = {
 			toggler = {
-				---Line-comment toggle keymap
 				line = "<C-c>",
 			},
 		},
@@ -66,6 +65,7 @@ return {
 		keys = {
             {"<leader>od", function() vim.diagnostic.open_float() end, desc ="Open diagnostic in floating windows"},
         },
+        ft = {"go","python", "marksman"},
 		config = function()
 			require("fidget").setup({})
 			require("mason").setup()

@@ -1,4 +1,3 @@
-java_filetypes = { "java" }
 return {
 	{
 		"mfussenegger/nvim-jdtls",
@@ -13,6 +12,11 @@ return {
 			"j-hui/fidget.nvim",
 		},
 		ft = java_filetypes,
+		ft = { "java" },
+        --stylua: ignore
+		keys = {
+            {"<leader>od", function() vim.diagnostic.open_float() end, desc ="Open diagnostic in floating windows"},
+        },
 		config = function()
 			require("fidget").setup({})
 
@@ -45,12 +49,25 @@ return {
 
 				-- How to run jdtls. This can be overridden to a full java command-line
 				-- if the Python wrapper script doesn't suffice.
-				cmd = { vim.fn.exepath("jdtls") },
+				cmd = {
+					vim.fn.exepath("jdtls"),
+					-- string.format("-javaagent:%s", vim.fn.expand ("$MASON/share/jdtls/lombok.jar"))
+					"--jvm-arg="
+						.. string.format(
+							"-javaagent:%s",
+							-- vim.fn.expand(xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar")
+							vim.fn.expand(xdg_data .. "/nvim-data/mason/share/jdtls/lombok.jar")
+						),
+					--  "--jvm-arg=-javaagent:" .. xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar",
+				},
 				full_cmd = function(opts)
 					local fname = vim.api.nvim_buf_get_name(0)
 					local root_dir = opts.root_dir(fname)
 					local project_name = opts.project_name(root_dir)
 					local cmd = vim.deepcopy(opts.cmd)
+					-- vim.list_extend(cmd, {
+					-- 	"--jvm-arg=-javaagent:" .. xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar",
+					-- })
 					if project_name then
 						vim.list_extend(cmd, {
 							"-configuration",
@@ -113,7 +130,7 @@ return {
 			-- depending on filetype, so this autocmd doesn't run for the first file.
 			-- For that, we call directly below.
 			vim.api.nvim_create_autocmd("FileType", {
-				pattern = java_filetypes,
+				pattern = { "java" },
 				callback = attach_jdtls,
 			})
 
@@ -171,12 +188,12 @@ return {
 
 						-- Java Test require Java debugger to work
 						-- custom keymaps for Java test runner (not yet compatible with neotest)
-						wk.register({
-							["<leader>t"] = { name = "+test" },
-							["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
-							["<leader>tr"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
-							["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
-						}, { mode = "n", buffer = args.buf })
+						-- wk.register({
+						-- 	["<leader>t"] = { name = "+test" },
+						-- 	["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
+						-- 	["<leader>tr"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
+						-- 	["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
+						-- }, { mode = "n", buffer = args.buf })
 
 						-- User can set additional keymaps in opts.on_attach
 						if opts.on_attach then
