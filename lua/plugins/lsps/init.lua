@@ -34,7 +34,15 @@ return {
       },
 		config = function()
 			local path = require("mason-registry").get_package("debugpy"):get_install_path()
-			require("dap-python").setup(path .. "/venv/bin/python")
+			local pythonPath
+			if vim.fn.has("win32") == 1 then
+				-- Set the path for Windows
+				pythonPath = "/venv/Scripts/python"
+			else
+				-- Set the path for Linux or macOS
+				pythonPath = "/venv/bin/python"
+			end
+			require("dap-python").setup(path .. pythonPath)
 		end,
 	},
       {
