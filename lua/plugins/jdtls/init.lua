@@ -166,6 +166,7 @@ return {
 							["<space>D"] = { vim.lsp.buf.type_definition, "Type Definition" },
 							["<space>rn"] = { vim.lsp.buf.rename, "Rename" },
 							["gr"] = { vim.lsp.buf.references, "References" },
+							["<leader>od"] = { vim.diagnostic.open_float(), "Open diagnostic in floating windows" },
 						}, { mode = "n", buffer = args.buf })
 						wk.register({
 							["<leader>em"] = {
