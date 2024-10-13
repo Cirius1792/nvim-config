@@ -11,12 +11,7 @@ return {
 			"L3MON4D3/LuaSnip", -- Snippets plugin
 			"j-hui/fidget.nvim",
 		},
-		ft = java_filetypes,
 		ft = { "java" },
-        --stylua: ignore
-		keys = {
-            {"<leader>od", function() vim.diagnostic.open_float() end, desc ="Open diagnostic in floating windows"},
-        },
 		config = function()
 			require("fidget").setup({})
 
@@ -33,7 +28,7 @@ return {
 			})
 			local opts = {
 				root_dir = function()
-					require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
+					return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
 				end,
 
 				project_name = function(root_dir)
@@ -51,13 +46,10 @@ return {
 				-- if the Python wrapper script doesn't suffice.
 				cmd = {
 					vim.fn.exepath("jdtls"),
-					-- string.format("-javaagent:%s", vim.fn.expand ("$MASON/share/jdtls/lombok.jar"))
-					"--jvm-arg="
-						.. string.format(
-							"-javaagent:%s",
-							-- vim.fn.expand(xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar")
-							vim.fn.expand(xdg_data .. "/nvim-data/mason/share/jdtls/lombok.jar")
-						),
+					"--jvm-arg=" .. string.format(
+						"-javaagent:%s",
+						vim.fn.expand(vim.env.xdg_data_home .. "/nvim-data/mason/share/jdtls/lombok.jar")
+					),
 					--  "--jvm-arg=-javaagent:" .. xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar",
 				},
 				full_cmd = function(opts)
@@ -143,6 +135,7 @@ return {
 					if client and client.name == "jdtls" then
 						local wk = require("which-key")
 						wk.register({
+							["<leader>od"] = { vim.diagnostic.open_float, "Open diagnostic in floating windows" },
 							["<leader>e"] = { name = "+Refactoring" },
 							["<leader>ev"] = { require("jdtls").extract_variable_all, "Extract Variable" },
 							["<leader>ec"] = { require("jdtls").extract_constant, "Extract Constant" },
@@ -166,7 +159,6 @@ return {
 							["<space>D"] = { vim.lsp.buf.type_definition, "Type Definition" },
 							["<space>rn"] = { vim.lsp.buf.rename, "Rename" },
 							["gr"] = { vim.lsp.buf.references, "References" },
-							["<leader>od"] = { vim.diagnostic.open_float(), "Open diagnostic in floating windows" },
 						}, { mode = "n", buffer = args.buf })
 						wk.register({
 							["<leader>em"] = {
@@ -189,12 +181,12 @@ return {
 
 						-- Java Test require Java debugger to work
 						-- custom keymaps for Java test runner (not yet compatible with neotest)
-						-- wk.register({
-						-- 	["<leader>t"] = { name = "+test" },
-						-- 	["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
-						-- 	["<leader>tr"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
-						-- 	["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
-						-- }, { mode = "n", buffer = args.buf })
+						wk.register({
+							["<leader>t"] = { name = "+test" },
+							["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
+							["<leader>tr"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
+							["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
+						}, { mode = "n", buffer = args.buf })
 
 						-- User can set additional keymaps in opts.on_attach
 						if opts.on_attach then
