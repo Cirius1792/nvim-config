@@ -50,7 +50,7 @@ return {
 					vim.fn.exepath("jdtls"),
 					"--jvm-arg=" .. string.format(
 						"-javaagent:%s",
-						vim.fn.expand(xdg_data_home .. "/nvim-data/mason/share/jdtls/lombok.jar")
+						vim.fn.expand(xdg_data_home .. "/nvim/mason/packages/jdtls/lombok.jar")
 					),
 					--  "--jvm-arg=-javaagent:" .. xdg_data_home .. "/nvim-data/mason/packages/jdtls/lombok.jar",
 				},
