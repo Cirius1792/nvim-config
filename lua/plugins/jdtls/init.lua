@@ -27,6 +27,7 @@ return {
 				ensure_installed = servers,
 				automatic_installation = true,
 			})
+			local xdg_data_home = vim.env.xdg_data_home or vim.fn.stdpath("data")
 			local opts = {
 				root_dir = function()
 					require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
@@ -45,7 +46,6 @@ return {
 
 				-- How to run jdtls. This can be overridden to a full java command-line
 				-- if the Python wrapper script doesn't suffice.
-                local xdg_data_home = vim.env.xdg_data_home or vim.fn.stdpath("data")
                 cmd = {
 					vim.fn.exepath("jdtls"),
 					"--jvm-arg=" .. string.format(
