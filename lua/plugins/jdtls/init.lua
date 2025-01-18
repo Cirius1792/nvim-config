@@ -45,7 +45,14 @@ return {
 
 				-- How to run jdtls. This can be overridden to a full java command-line
 				-- if the Python wrapper script doesn't suffice.
-				cmd = { vim.fn.exepath("jdtls") },
+                cmd = {
+					vim.fn.exepath("jdtls"),
+					"--jvm-arg=" .. string.format(
+						"-javaagent:%s",
+						vim.fn.expand(vim.env.xdg_data_home .. "/nvim-data/mason/share/jdtls/lombok.jar")
+					),
+					--  "--jvm-arg=-javaagent:" .. xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar",
+				},
 				full_cmd = function(opts)
 					local fname = vim.api.nvim_buf_get_name(0)
 					local root_dir = opts.root_dir(fname)
