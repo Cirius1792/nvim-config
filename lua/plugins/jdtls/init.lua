@@ -171,12 +171,12 @@ return {
 
 						-- Java Test require Java debugger to work
 						-- custom keymaps for Java test runner (not yet compatible with neotest)
-						wk.register({
-							["<leader>t"] = { name = "+test" },
-							["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
-							["<leader>tr"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
-							["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
-						}, { mode = "n", buffer = args.buf })
+						-- wk.register({
+						-- 	["<leader>t"] = { name = "+test" },
+						-- 	["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
+						-- 	["<leader>tr"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
+						-- 	["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
+						-- }, { mode = "n", buffer = args.buf })
 
 						-- User can set additional keymaps in opts.on_attach
 						if opts.on_attach then
