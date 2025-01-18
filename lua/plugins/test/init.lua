@@ -1,7 +1,14 @@
 return {
-    {
-
-    },
+	{
+		"rcasia/neotest-java",
+		ft = "java",
+		dependencies = {
+			"mfussenegger/nvim-jdtls",
+			"mfussenegger/nvim-dap", -- for the debugger
+			"rcarriga/nvim-dap-ui", -- recommended
+			"theHamsta/nvim-dap-virtual-text", -- recommended
+		},
+	},
 	{
 		"nvim-neotest/neotest",
 		event = "LspAttach",
@@ -12,7 +19,7 @@ return {
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-python",
-            "nvim-neotest/neotest-go",
+			"nvim-neotest/neotest-go",
 		},
 		config = function()
 			local pythonPath
@@ -31,7 +38,7 @@ return {
 						--python = ".venv/Scripts/python",
 						python = pythonPath,
 					}),
-                    require("neotest-go"),
+					require("neotest-go"),
 				},
 				status = { virtual_text = true },
 				output = { open_on_run = true },
