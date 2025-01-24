@@ -11,6 +11,7 @@ return {
 			"saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
 			"L3MON4D3/LuaSnip", -- Snippets plugin
 			"j-hui/fidget.nvim",
+		"mfussenegger/nvim-dap",
 		},
 		ft = java_filetypes,
 		config = function()
@@ -171,6 +172,10 @@ return {
 								[[<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>]],
 								"Extract Constant",
 							},
+							["<leader>em"] = {
+								[[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]],
+								"Extract Constant",
+							},
 						}, { mode = "v", buffer = args.buf })
 
 						-- custom init for Java debugger
@@ -179,12 +184,12 @@ return {
 
 						-- Java Test require Java debugger to work
 						-- custom keymaps for Java test runner (not yet compatible with neotest)
-						-- wk.register({
+						wk.register({
 						-- 	["<leader>t"] = { name = "+test" },
 						-- 	["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
-						-- 	["<leader>tr"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
+							["<leader>tdj"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
 						-- 	["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
-						-- }, { mode = "n", buffer = args.buf })
+						}, { mode = "n", buffer = args.buf })
 
 						-- User can set additional keymaps in opts.on_attach
 						if opts.on_attach then
