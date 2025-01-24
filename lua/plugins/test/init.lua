@@ -30,17 +30,28 @@ return {
 				-- Set the path for Linux or macOS
 				pythonPath = ".venv/bin/python"
 			end
-			require("neotest").setup({
-				adapters = {
-					require("neotest-python")({
+			-- Function to get appropriate adapters based on filetype
+			local function get_adapters()
+				local ft = vim.bo.filetype
+				local adapters = {}
+
+				if ft == "python" then
+					table.insert(adapters, require("neotest-python")({
 						dap = { justMyCode = false },
 						runner = "pytest",
-						--python = ".venv/Scripts/python",
 						python = pythonPath,
-					}),
-					require("neotest-go"),
-                    require("neotest-java"),
-				},
+					}))
+				elseif ft == "go" then
+					table.insert(adapters, require("neotest-go"))
+				elseif ft == "java" then
+					table.insert(adapters, require("neotest-java"))
+				end
+
+				return adapters
+			end
+
+			require("neotest").setup({
+				adapters = get_adapters(),
 				status = { virtual_text = true },
 				output = { open_on_run = true },
 				--	quickfix = {
