@@ -1,15 +1,5 @@
 return {
 	{
-		"rcasia/neotest-java",
-		ft = "java",
-		dependencies = {
-			"mfussenegger/nvim-jdtls",
-			"mfussenegger/nvim-dap", -- for the debugger
-			"rcarriga/nvim-dap-ui", -- recommended
-			"theHamsta/nvim-dap-virtual-text", -- recommended
-		},
-	},
-	{
 		"nvim-neotest/neotest",
 		event = "LspAttach",
 		ft = "python",
@@ -20,6 +10,7 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-python",
 			"nvim-neotest/neotest-go",
+			"rcasia/neotest-java",
 		},
 		config = function()
 			local pythonPath
