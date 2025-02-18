@@ -11,7 +11,7 @@ return {
 			"saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
 			"L3MON4D3/LuaSnip", -- Snippets plugin
 			"j-hui/fidget.nvim",
-		"mfussenegger/nvim-dap",
+			"mfussenegger/nvim-dap",
 		},
 		ft = java_filetypes,
 		config = function()
@@ -31,23 +31,30 @@ return {
 			local xdg_data_home = vim.env.xdg_data_home or vim.fn.stdpath("data")
 			local opts = {
 				root_dir = function()
-					require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
+					return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
 				end,
-
+				-- project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"),
 				project_name = function(root_dir)
-					return root_dir and vim.fs.basename(root_dir)
+					-- if root_dir then
+					-- 	print("basename: " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"))
+					-- end
+					return vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 				end,
 
 				jdtls_config_dir = function(project_name)
-					return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/config"
+					local config_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/config"
+					-- print("config_dir: " .. config_dir)
+					return config_dir
 				end,
 				jdtls_workspace_dir = function(project_name)
-					return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/workspace"
+					local ws_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/workspace"
+					-- print("ws_dir: " .. ws_dir)
+					return ws_dir
 				end,
 
 				-- How to run jdtls. This can be overridden to a full java command-line
 				-- if the Python wrapper script doesn't suffice.
-                cmd = {
+				cmd = {
 					vim.fn.exepath("jdtls"),
 					"--jvm-arg=" .. string.format(
 						"-javaagent:%s",
@@ -60,7 +67,9 @@ return {
 					local root_dir = opts.root_dir(fname)
 					local project_name = opts.project_name(root_dir)
 					local cmd = vim.deepcopy(opts.cmd)
+					-- log the project_name variable
 					if project_name then
+						vim.notify("project_name: " .. project_name)
 						vim.list_extend(cmd, {
 							"-configuration",
 							opts.jdtls_config_dir(project_name),
@@ -185,10 +194,10 @@ return {
 						-- Java Test require Java debugger to work
 						-- custom keymaps for Java test runner (not yet compatible with neotest)
 						wk.register({
-						-- 	["<leader>t"] = { name = "+test" },
-						-- 	["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
+							-- 	["<leader>t"] = { name = "+test" },
+							-- 	["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
 							["<leader>tdj"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
-						-- 	["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
+							-- 	["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
 						}, { mode = "n", buffer = args.buf })
 
 						-- User can set additional keymaps in opts.on_attach
