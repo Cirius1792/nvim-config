@@ -15,6 +15,7 @@ return {
 		},
 		ft = java_filetypes,
 		config = function()
+			local home = os.getenv("HOME")
 			require("fidget").setup({})
 
 			require("mason").setup()
@@ -119,6 +120,33 @@ return {
 					},
 					-- enable CMP capabilities
 					capabilities = require("cmp_nvim_lsp").default_capabilities(),
+					settings = {
+						java = {
+							signatureHelp = { enabled = true },
+							contentProvider = { preferred = "fernflower" },
+							completion = {
+								favoriteStaticMembers = {
+									"org.junit.jupiter.api.Assertions.*",
+									"java.util.Objects.requireNonNull",
+									"java.util.Objects.requireNonNullElse",
+									"org.mockito.Mockito.*",
+								},
+							},
+
+							configuration = {
+								runtimes = {
+									{
+										name = "JavaSE-11",
+										path = home .. "/.sdkman/candidates/java/11.0.23-amzn/",
+									},
+									{
+										name = "JavaSE-17",
+										path = home .. "/.sdkman/candidates/java/17.0.13-amzn/",
+									},
+								},
+							},
+						},
+					},
 				}
 
 				-- Existing server will be reused if the root_dir matches.
