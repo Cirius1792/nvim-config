@@ -28,7 +28,7 @@ return {
 						python = pythonPath,
 					}),
 					require("neotest-go"),
-					require("neotest-java"),
+					-- require("neotest-java"),
 				},
 				status = { virtual_text = true },
 				output = { open_on_run = true },

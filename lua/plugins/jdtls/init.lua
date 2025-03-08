@@ -31,8 +31,8 @@ return {
 			})
 			local xdg_data_home = vim.env.xdg_data_home or vim.fn.stdpath("data")
 			local opts = {
-				root_dir = function()
-					return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
+				root_dir = function(fname)
+					return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" }, fname)
 				end,
 				-- project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"),
 				project_name = function(root_dir)
@@ -209,10 +209,6 @@ return {
 								[[<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>]],
 								"Extract Constant",
 							},
-							["<leader>em"] = {
-								[[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]],
-								"Extract Constant",
-							},
 						}, { mode = "v", buffer = args.buf })
 
 						-- custom init for Java debugger
@@ -223,9 +219,9 @@ return {
 						-- custom keymaps for Java test runner (not yet compatible with neotest)
 						wk.register({
 							-- 	["<leader>t"] = { name = "+test" },
-							-- 	["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
+								["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
 							["<leader>tdj"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
-							-- 	["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
+								["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
 						}, { mode = "n", buffer = args.buf })
 
 						-- User can set additional keymaps in opts.on_attach
