@@ -7,11 +7,13 @@ return {
   -- stylua: ignore
 	keys = {
 		{ "<leader>e", desc = "Refactoring" },
-		{ "<leader>ev", desc = "Extract Variable" },
+		{ "<leader>ev", function() require('refactoring').refactor('Extract Variable') end, desc = "Extract Variable" },
+		{ "<leader>em", function() require('refactoring').refactor('Extract Function') end, desc = "Extract Method" },
+		{ "<leader>rr",  function() require("telescope").extensions.refactoring.refactors() end, desc = "Refactoring Menu" },
 	},
 	ft = { "python", "go" }, -- Load the plugin only on Python files
 	config = function()
 		require("refactoring").setup()
-		vim.keymap.set("x", "<leader>ev", ":Refactor extract_var ")
+		require("telescope").load_extension("refactoring")
 	end,
 }
