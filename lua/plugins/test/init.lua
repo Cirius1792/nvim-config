@@ -27,7 +27,6 @@ return {
 					require("neotest-python")({
 						dap = { justMyCode = false },
 						runner = "pytest",
-						--python = ".venv/Scripts/python",
 						python = pythonPath,
 					}),
 					require("neotest-go"),

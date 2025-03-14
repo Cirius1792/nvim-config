@@ -1,2 +1,5 @@
 lua/plugins/obsidian/workspaces/init.lua
 lua/plugins/obsidian/workspaces.lua
+lua/plugins/db/configs.lua
+lua/plugins/db/init.lua
+.aider*

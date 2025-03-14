@@ -10,9 +10,12 @@ return {
 			"saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
 			"L3MON4D3/LuaSnip", -- Snippets plugin
 			"j-hui/fidget.nvim",
+			"mfussenegger/nvim-dap",
+			"nvim-telescope/telescope.nvim",
 		},
 		ft = { "java" },
 		config = function()
+			local home = os.getenv("HOME")
 			require("fidget").setup({})
 
 			require("mason").setup()
@@ -26,20 +29,28 @@ return {
 				ensure_installed = servers,
 				automatic_installation = true,
 			})
+			local xdg_data_home = vim.env.xdg_data_home or vim.fn.stdpath("data")
 			local opts = {
-				root_dir = function()
-					return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
+				root_dir = function(fname)
+					return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" }, fname)
 				end,
-
+				-- project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"),
 				project_name = function(root_dir)
-					return root_dir and vim.fs.basename(root_dir)
+					-- if root_dir then
+					-- 	print("basename: " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"))
+					-- end
+					return vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 				end,
 
 				jdtls_config_dir = function(project_name)
-					return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/config"
+					local config_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/config"
+					-- print("config_dir: " .. config_dir)
+					return config_dir
 				end,
 				jdtls_workspace_dir = function(project_name)
-					return vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/workspace"
+					local ws_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/workspace"
+					-- print("ws_dir: " .. ws_dir)
+					return ws_dir
 				end,
 
 				-- How to run jdtls. This can be overridden to a full java command-line
@@ -48,19 +59,18 @@ return {
 					vim.fn.exepath("jdtls"),
 					"--jvm-arg=" .. string.format(
 						"-javaagent:%s",
-						vim.fn.expand(vim.env.xdg_data_home .. "/nvim-data/mason/share/jdtls/lombok.jar")
+						vim.fn.expand(xdg_data_home .. "/mason/packages/jdtls/lombok.jar")
 					),
-					--  "--jvm-arg=-javaagent:" .. xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar",
+					--  "--jvm-arg=-javaagent:" .. xdg_data_home .. "/nvim-data/mason/packages/jdtls/lombok.jar",
 				},
 				full_cmd = function(opts)
 					local fname = vim.api.nvim_buf_get_name(0)
 					local root_dir = opts.root_dir(fname)
 					local project_name = opts.project_name(root_dir)
 					local cmd = vim.deepcopy(opts.cmd)
-					-- vim.list_extend(cmd, {
-					-- 	"--jvm-arg=-javaagent:" .. xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar",
-					-- })
+					-- log the project_name variable
 					if project_name then
+						vim.notify("project_name: " .. project_name)
 						vim.list_extend(cmd, {
 							"-configuration",
 							opts.jdtls_config_dir(project_name),
@@ -107,9 +117,42 @@ return {
 					root_dir = opts.root_dir(fname),
 					init_options = {
 						bundles = bundles,
+						extendedClientCapabilities = {
+							actionableIncidentSupport = true,
+						},
 					},
 					-- enable CMP capabilities
 					capabilities = require("cmp_nvim_lsp").default_capabilities(),
+					handlers = {
+						-- Use the standard handler but with telescope UI
+					},
+					settings = {
+						java = {
+							signatureHelp = { enabled = true },
+							contentProvider = { preferred = "fernflower" },
+							completion = {
+								favoriteStaticMembers = {
+									"org.junit.jupiter.api.Assertions.*",
+									"java.util.Objects.requireNonNull",
+									"java.util.Objects.requireNonNullElse",
+									"org.mockito.Mockito.*",
+								},
+							},
+
+							configuration = {
+								runtimes = {
+									{
+										name = "JavaSE-11",
+										path = home .. "/.sdkman/candidates/java/11.0.23-amzn/",
+									},
+									{
+										name = "JavaSE-17",
+										path = home .. "/.sdkman/candidates/java/17.0.13-amzn/",
+									},
+								},
+							},
+						},
+					},
 				}
 
 				-- Existing server will be reused if the root_dir matches.
@@ -159,6 +202,7 @@ return {
 							["<space>D"] = { vim.lsp.buf.type_definition, "Type Definition" },
 							["<space>rn"] = { vim.lsp.buf.rename, "Rename" },
 							["gr"] = { vim.lsp.buf.references, "References" },
+							["<space>ca"] = { require("telescope.builtin").lsp_code_actions, "Code Actions (Telescope)" },
 						}, { mode = "n", buffer = args.buf })
 						wk.register({
 							["<leader>em"] = {
@@ -182,10 +226,10 @@ return {
 						-- Java Test require Java debugger to work
 						-- custom keymaps for Java test runner (not yet compatible with neotest)
 						wk.register({
-							["<leader>t"] = { name = "+test" },
-							["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
-							["<leader>tr"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
-							["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
+							-- 	["<leader>t"] = { name = "+test" },
+								["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
+							["<leader>tdj"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
+								["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
 						}, { mode = "n", buffer = args.buf })
 
 						-- User can set additional keymaps in opts.on_attach
