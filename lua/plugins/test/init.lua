@@ -1,18 +1,17 @@
 return {
-    {
-
-    },
+	{},
 	{
 		"nvim-neotest/neotest",
 		event = "LspAttach",
-		ft = "python",
+		-- ft = "python",
 		dependencies = {
 			"folke/trouble.nvim",
 			"nvim-lua/plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-neotest/neotest-python",
-            "nvim-neotest/neotest-go",
+			"nvim-neotest/neotest-go",
+			-- "rcasia/neotest-java",
 		},
 		config = function()
 			local pythonPath
@@ -31,7 +30,8 @@ return {
 						--python = ".venv/Scripts/python",
 						python = pythonPath,
 					}),
-                    require("neotest-go"),
+					require("neotest-go"),
+					-- require("neotest-java"),
 				},
 				status = { virtual_text = true },
 				output = { open_on_run = true },
@@ -62,4 +62,23 @@ return {
              { "<leader>td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
            },
 	},
+	-- {
+	-- 	"rcasia/neotest-java",
+	-- 	ft = "java",
+	-- 	dependencies = {
+	-- 		"mfussenegger/nvim-jdtls",
+	-- 		"mfussenegger/nvim-dap", -- for the debugger
+	-- 		"rcarriga/nvim-dap-ui", -- recommended
+	-- 		"theHamsta/nvim-dap-virtual-text", -- recommended
+	-- 	},
+	-- 	init = function() end,
+	-- },
+  --   {
+  --       "vim-test/vim-test",
+	 -- 	ft = "java",
+  --         keys = {
+  --           { "<leader>jt", "<cmd>TestNearest<cr>", desc = "Run Nearest Java Test" },
+  --       },
+		-- init = function() end,
+  --   }
 }

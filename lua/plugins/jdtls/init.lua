@@ -1,4 +1,3 @@
-java_filetypes = { "java" }
 return {
 	{
 		"mfussenegger/nvim-jdtls",
@@ -12,7 +11,7 @@ return {
 			"L3MON4D3/LuaSnip", -- Snippets plugin
 			"j-hui/fidget.nvim",
 		},
-		ft = java_filetypes,
+		ft = { "java" },
 		config = function()
 			require("fidget").setup({})
 
@@ -29,7 +28,7 @@ return {
 			})
 			local opts = {
 				root_dir = function()
-					require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
+					return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" })
 				end,
 
 				project_name = function(root_dir)
@@ -45,12 +44,22 @@ return {
 
 				-- How to run jdtls. This can be overridden to a full java command-line
 				-- if the Python wrapper script doesn't suffice.
-				cmd = { vim.fn.exepath("jdtls") },
+				cmd = {
+					vim.fn.exepath("jdtls"),
+					"--jvm-arg=" .. string.format(
+						"-javaagent:%s",
+						vim.fn.expand(vim.env.xdg_data_home .. "/nvim-data/mason/share/jdtls/lombok.jar")
+					),
+					--  "--jvm-arg=-javaagent:" .. xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar",
+				},
 				full_cmd = function(opts)
 					local fname = vim.api.nvim_buf_get_name(0)
 					local root_dir = opts.root_dir(fname)
 					local project_name = opts.project_name(root_dir)
 					local cmd = vim.deepcopy(opts.cmd)
+					-- vim.list_extend(cmd, {
+					-- 	"--jvm-arg=-javaagent:" .. xdg_data .. "/nvim-data/mason/packages/jdtls/lombok.jar",
+					-- })
 					if project_name then
 						vim.list_extend(cmd, {
 							"-configuration",
@@ -113,7 +122,7 @@ return {
 			-- depending on filetype, so this autocmd doesn't run for the first file.
 			-- For that, we call directly below.
 			vim.api.nvim_create_autocmd("FileType", {
-				pattern = java_filetypes,
+				pattern = { "java" },
 				callback = attach_jdtls,
 			})
 
@@ -126,6 +135,7 @@ return {
 					if client and client.name == "jdtls" then
 						local wk = require("which-key")
 						wk.register({
+							["<leader>od"] = { vim.diagnostic.open_float, "Open diagnostic in floating windows" },
 							["<leader>e"] = { name = "+Refactoring" },
 							["<leader>ev"] = { require("jdtls").extract_variable_all, "Extract Variable" },
 							["<leader>ec"] = { require("jdtls").extract_constant, "Extract Constant" },
