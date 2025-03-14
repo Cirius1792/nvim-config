@@ -12,6 +12,7 @@ return {
 			"L3MON4D3/LuaSnip", -- Snippets plugin
 			"j-hui/fidget.nvim",
 			"mfussenegger/nvim-dap",
+			"nvim-telescope/telescope.nvim",
 		},
 		ft = java_filetypes,
 		config = function()
@@ -117,9 +118,15 @@ return {
 					root_dir = opts.root_dir(fname),
 					init_options = {
 						bundles = bundles,
+						extendedClientCapabilities = {
+							actionableIncidentSupport = true,
+						},
 					},
 					-- enable CMP capabilities
 					capabilities = require("cmp_nvim_lsp").default_capabilities(),
+					handlers = {
+						-- Use the standard handler but with telescope UI
+					},
 					settings = {
 						java = {
 							signatureHelp = { enabled = true },
@@ -195,6 +202,7 @@ return {
 							["<space>D"] = { vim.lsp.buf.type_definition, "Type Definition" },
 							["<space>rn"] = { vim.lsp.buf.rename, "Rename" },
 							["gr"] = { vim.lsp.buf.references, "References" },
+							["<space>ca"] = { require("telescope.builtin").lsp_code_actions, "Code Actions (Telescope)" },
 						}, { mode = "n", buffer = args.buf })
 						wk.register({
 							["<leader>em"] = {
