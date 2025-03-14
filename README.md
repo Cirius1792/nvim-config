@@ -13,6 +13,7 @@ This repository contains my configuration for a fully-featured Neovim IDE setup.
 ### AI/Assistants
 - **codeium**: AI-based code suggestions (backup: `lua/plugins/codeium/init.lua.bk`)
 - **copilot**: GitHub Copilot integration (`lua/plugins/copilot/init.lua`)
+- **code companion**: Provides context-aware code assistance (see `lua/plugins/code_companion/init.lua`)
 
 ### Debugging
 - **dap**: Debug adapter protocol integration for Neovim (`lua/plugins/dap/init.lua`)
@@ -33,6 +34,7 @@ This repository contains my configuration for a fully-featured Neovim IDE setup.
 - **lsps**: General LSP configurations and Go specifics (`lua/plugins/lsps/init.lua`, `lua/plugins/lsps/go.lua`)
 - **mason**: Manager for external tools like LSPs, linters, DAP, etc. (`lua/plugins/mason/init.lua`)
 - **markdown**: Markdown support (`lua/plugins/markdown/init.lua`)
+- **pyright**: Python language server providing linting and type checking (see `lua/plugins/pyright/init.lua`)
 
 ### Additional Enhancements
 - **obsidian**: Integration with Obsidian notes (backup: `lua/plugins/obsidian/init.lua.bkp`)
