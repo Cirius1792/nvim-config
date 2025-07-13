@@ -26,6 +26,9 @@ return {
 				go = {
 					require("formatter.filetypes.go").gofmt,
 				},
+                dart={
+                    require("formatter.filetypes.dart").dartformat,
+                },
 			},
 		})
 		local augroup = vim.api.nvim_create_augroup
