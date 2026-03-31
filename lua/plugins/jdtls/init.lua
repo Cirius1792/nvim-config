@@ -168,6 +168,7 @@ return {
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 					if client and client.name == "jdtls" then
 						local wk = require("which-key")
+						local float_opts = { border = "rounded", width = 50, height = 20 }
 						wk.register({
 							["<leader>od"] = { vim.diagnostic.open_float, "Open diagnostic in floating windows" },
 							["<leader>e"] = { name = "+Refactoring" },
@@ -179,8 +180,18 @@ return {
 							["gd"] = { vim.lsp.buf.definition, "go to definition" },
 							["gi"] = { vim.lsp.buf.implementation, "go to implementation" },
 							["<leader>co"] = { require("jdtls").organize_imports, "Organize Imports" },
-							["K"] = { vim.lsp.buf.hover, "show doc" },
-							["<C-Space>"] = { vim.lsp.buf.signature_help, "Show signature" },
+							["K"] = {
+								function()
+									vim.lsp.buf.hover(float_opts)
+								end,
+								"show doc",
+							},
+							["<C-Space>"] = {
+								function()
+									vim.lsp.buf.signature_help(float_opts)
+								end,
+								"Show signature",
+							},
 							["<space>w"] = { name = "+Workspace" },
 							["<space>wa"] = { vim.lsp.buf.add_workspace_folder, "Add Workspace Folder" },
 							["<space>wr"] = { vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder" },
