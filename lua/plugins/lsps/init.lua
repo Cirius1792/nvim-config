@@ -112,13 +112,13 @@ return {
 		ft = { "go", "gomod", "gowork", "gosum", "lua", "markdown", "python" },
 		config = function()
 			require("fidget").setup({})
-			local servers = { "lua_ls", "pyright", "marksman", "gopls" }
+			local servers = { "lua_ls", "ty", "marksman", "gopls" }
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			vim.lsp.config("lua_ls", {
 				capabilities = capabilities,
 			})
-			vim.lsp.config("pyright", {
+			vim.lsp.config("ty", {
 				capabilities = capabilities,
 			})
 			vim.lsp.config("marksman", {
