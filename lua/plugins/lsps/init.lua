@@ -62,7 +62,7 @@ return {
         { "<leader>dpc", function() require('dap-python').test_class() end, desc = "Debug Class", ft = "python" },
       },
 		config = function()
-			local path = require("mason-registry").get_package("debugpy"):get_install_path()
+			local mason_install_root = require("mason.settings").current.install_root_dir
 			local pythonPath
 			if vim.fn.has("win32") == 1 then
 				-- Set the path for Windows
@@ -71,7 +71,7 @@ return {
 				-- Set the path for Linux or macOS
 				pythonPath = "/venv/bin/python"
 			end
-			require("dap-python").setup(path .. pythonPath)
+			require("dap-python").setup(mason_install_root .. "/packages/debugpy" .. pythonPath)
 		end,
 	},
 	{
@@ -109,25 +109,29 @@ return {
 		keys = {
             {"<leader>od", function() vim.diagnostic.open_float() end, desc ="Open diagnostic in floating windows"},
         },
-		ft = { "go", "python", "marksman" },
+		ft = { "go", "gomod", "gowork", "gosum", "lua", "markdown", "python" },
 		config = function()
 			require("fidget").setup({})
-			require("mason").setup()
-			local lspconfig = require("lspconfig")
 			local servers = { "lua_ls", "pyright", "marksman", "gopls" }
-			local noop = function() end
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			require("mason-lspconfig").setup_handlers({
-				["jdtls"] = noop,
+			vim.lsp.config("lua_ls", {
+				capabilities = capabilities,
 			})
+			vim.lsp.config("pyright", {
+				capabilities = capabilities,
+			})
+			vim.lsp.config("marksman", {
+				capabilities = capabilities,
+			})
+			vim.lsp.config("gopls", vim.tbl_deep_extend("force", require("plugins.lsps.go"), {
+				capabilities = capabilities,
+			}))
+
 			require("mason-lspconfig").setup({
 				ensure_installed = servers,
-				automatic_installation = true,
+				automatic_enable = true,
 			})
-
-			lspconfig.pyright.setup({})
-			lspconfig.marksman.setup({})
-			lspconfig.gopls.setup(require("plugins.lsps.go"))
 
 			-- Use LspAttach autocommand to only map the following keys
 			-- after the language server attaches to the current buffer
@@ -156,15 +160,6 @@ return {
 					--end, opts)
 				end,
 			})
-
-			-- Auto Completion with CMP
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			for _, lsp in ipairs(servers) do
-				lspconfig[lsp].setup({
-					-- on_attach = my_custom_on_attach,
-					capabilities = capabilities,
-				})
-			end
 		end,
 	},
 }

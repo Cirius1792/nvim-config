@@ -16,30 +16,21 @@ return {
 		ft = { "java" },
 		config = function()
 			local home = os.getenv("HOME")
+			local mason_install_root = require("mason.settings").current.install_root_dir
 			require("fidget").setup({})
 
-			require("mason").setup()
-			local servers = { "jdtls" }
-			local noop = function() end
-
-			require("mason-lspconfig").setup_handlers({
-				["jdtls"] = noop,
-			})
 			require("mason-lspconfig").setup({
-				ensure_installed = servers,
-				automatic_installation = true,
+				ensure_installed = { "jdtls" },
+				automatic_enable = false,
 			})
-			local xdg_data_home = vim.env.xdg_data_home or vim.fn.stdpath("data")
+			local xdg_data_home = vim.env.XDG_DATA_HOME or vim.fn.stdpath("data")
 			local opts = {
 				root_dir = function(fname)
-					return require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" }, fname)
+					return vim.fs.root(fname, { ".git", "mvnw", "gradlew" })
 				end,
 				-- project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"),
 				project_name = function(root_dir)
-					-- if root_dir then
-					-- 	print("basename: " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"))
-					-- end
-					return vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+					return root_dir and vim.fs.basename(root_dir) or vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 				end,
 
 				jdtls_config_dir = function(project_name)
@@ -91,13 +82,13 @@ return {
 			local mason_registry = require("mason-registry")
 			local bundles = {} ---@type string[]
 			local java_dbg_pkg = mason_registry.get_package("java-debug-adapter")
-			local java_dbg_path = java_dbg_pkg:get_install_path()
+			local java_dbg_path = mason_install_root .. "/packages/" .. java_dbg_pkg.name
 			local jar_patterns = {
 				java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
 			}
 			-- java-test also depends on java-debug-adapter.
 			local java_test_pkg = mason_registry.get_package("java-test")
-			local java_test_path = java_test_pkg:get_install_path()
+			local java_test_path = mason_install_root .. "/packages/" .. java_test_pkg.name
 			vim.list_extend(jar_patterns, {
 				java_test_path .. "/extension/server/*.jar",
 			})
