@@ -141,13 +141,17 @@ return {
 
 							configuration = {
 								runtimes = {
+									-- {
+									-- 	name = "JavaSE-11",
+									-- 	path = home .. "/.sdkman/candidates/java/11.0.23-amzn/",
+									-- },
 									{
-										name = "JavaSE-11",
-										path = home .. "/.sdkman/candidates/java/11.0.23-amzn/",
+										name = "17",
+										path = home .. "/.sdkman/candidates/java/17.0.17-amzn/",
 									},
 									{
-										name = "JavaSE-17",
-										path = home .. "/.sdkman/candidates/java/17.0.13-amzn/",
+										name = "21",
+										path = home .. "/.sdkman/candidates/java/21.0.8-amzn/",
 									},
 								},
 							},
