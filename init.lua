@@ -36,7 +36,8 @@ vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decreas
 
 vim.lsp.handlers["textDocument/hover"] =
 	vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", width = 50, height = 20 })
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+vim.lsp.handlers["textDocument/signatureHelp"] =
+	vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", width = 50, height = 20 })
 
 -- Use Telescope for code actions
 local telescope_loaded, _ = pcall(require, "telescope")

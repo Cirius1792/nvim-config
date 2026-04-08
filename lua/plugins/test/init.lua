@@ -12,6 +12,7 @@ return {
 			"nvim-neotest/neotest-python",
 			"nvim-neotest/neotest-go",
 			-- "rcasia/neotest-java",
+			"sidlatau/neotest-dart",
 		},
 		config = function()
 			local pythonPath
@@ -31,6 +32,10 @@ return {
 					}),
 					require("neotest-go"),
 					-- require("neotest-java"),
+					require("neotest-dart")({
+						command = "flutter",
+						use_lsp = true,
+					}),
 				},
 				status = { virtual_text = true },
 				output = { open_on_run = true },
@@ -72,12 +77,12 @@ return {
 	-- 	},
 	-- 	init = function() end,
 	-- },
-  --   {
-  --       "vim-test/vim-test",
-	 -- 	ft = "java",
-  --         keys = {
-  --           { "<leader>jt", "<cmd>TestNearest<cr>", desc = "Run Nearest Java Test" },
-  --       },
-		-- init = function() end,
-  --   }
+	--   {
+	--       "vim-test/vim-test",
+	-- 	ft = "java",
+	--         keys = {
+	--           { "<leader>jt", "<cmd>TestNearest<cr>", desc = "Run Nearest Java Test" },
+	--       },
+	-- init = function() end,
+	--   }
 }
