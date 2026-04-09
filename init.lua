@@ -34,10 +34,17 @@ vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window 
 vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
 
-vim.lsp.handlers["textDocument/hover"] =
-	vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", width = 50, height = 20 })
-vim.lsp.handlers["textDocument/signatureHelp"] =
-	vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", width = 50, height = 20 })
+local lsp_float_opts = { border = "rounded", width = 50, height = 20 }
+
+vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+	local merged_config = vim.tbl_deep_extend("force", config or {}, lsp_float_opts)
+	return vim.lsp.handlers.hover(err, result, ctx, merged_config)
+end
+
+vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
+	local merged_config = vim.tbl_deep_extend("force", config or {}, lsp_float_opts)
+	return vim.lsp.handlers.signature_help(err, result, ctx, merged_config)
+end
 
 -- Use Telescope for code actions
 local telescope_loaded, _ = pcall(require, "telescope")
