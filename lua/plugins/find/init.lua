@@ -1,7 +1,7 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
+		tag = "v0.2.1",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
@@ -28,6 +28,11 @@ return {
 			telescope.setup({
 				defaults = {
 					path_display = { "truncate" },
+				},
+				pickers = {
+					lsp_references = {
+						path_display = { "tail" },
+					},
 				},
 				extensions = {
 					["ui-select"] = {
