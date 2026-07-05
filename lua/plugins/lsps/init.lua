@@ -109,10 +109,10 @@ return {
 		keys = {
             {"<leader>od", function() vim.diagnostic.open_float() end, desc ="Open diagnostic in floating windows"},
         },
-		ft = { "go", "gomod", "gowork", "gosum", "lua", "markdown", "python" },
+		ft = { "go", "gomod", "gowork", "gosum", "lua", "markdown", "python", "typescript", "javascript" },
 		config = function()
 			require("fidget").setup({})
-			local servers = { "lua_ls", "ty", "marksman", "gopls" }
+			local servers = { "lua_ls", "ty", "marksman", "gopls", "ts_ls" }
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			vim.lsp.config("lua_ls", {
@@ -127,6 +127,9 @@ return {
 			vim.lsp.config("gopls", vim.tbl_deep_extend("force", require("plugins.lsps.go"), {
 				capabilities = capabilities,
 			}))
+            vim.lsp.config('ts_ls', {
+				capabilities = capabilities,
+			})
 
 			require("mason-lspconfig").setup({
 				ensure_installed = servers,
